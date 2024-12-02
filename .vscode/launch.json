@@ -10,8 +10,9 @@
             "request": "attach",
             "connect": {
                 "host": "reset-robot.local",
-                "port": 5678
+                "port": 5678,
             },
+            "preLaunchTask": "Robot: Deploy and run debugger",
             "pathMappings": [
                 {
                     "localRoot": "${workspaceFolder}",

@@ -1,0 +1,1 @@
+ssh robot@reset-robot.local 'cd robot && ./.venv/bin/python -m debugpy --listen reset-robot.local:5678 --wait-for-client ./main.py'
