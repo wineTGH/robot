@@ -10,7 +10,7 @@
         },
         {
             "label": "Robot: Deploy and run debugger",
-            "command": "${workspaceFolder}/scripts/deploy.sh && ${workspaceFolder}/scripts/debug.sh",
+            "command": "'${workspaceFolder}/scripts/deploy.sh' && '${workspaceFolder}/scripts/debug.sh'",
             "type": "shell"
         }
     ]
