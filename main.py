@@ -1,4 +1,5 @@
 from gpiozero import Servo, AngularServo, Motor  # type: ignore
+import time
 
 
 class Robot:
@@ -47,3 +48,38 @@ class Robot:
 
         self.motor_rf.backward()
         self.motor_rb.backward()
+
+    def stop(self) -> None:
+        self.motor_lf.stop()
+        self.motor_lb.stop()
+
+        self.motor_rf.stop()
+        self.motor_rb.stop()
+
+
+if __name__ == "__main__":
+    robot = Robot()
+
+    robot.forward()
+    time.sleep(1)
+
+    robot.stop()
+    time.sleep(1)
+
+    robot.backward()
+    time.sleep(1)
+
+    robot.stop()
+    time.sleep(1)
+
+    robot.right()
+    time.sleep(1)
+
+    robot.stop()
+    time.sleep(1)
+
+    robot.left()
+    time.sleep(1)
+
+    robot.stop()
+    time.sleep(1)
