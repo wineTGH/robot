@@ -8,6 +8,7 @@ dependencies = [
     "debugpy>=1.8.9",
     "gpiozero>=2.0.1",
     "opencv-python>=4.10.0.84",
+    "smbus2>=0.5.0",
 ]
 
 [dependency-groups]
