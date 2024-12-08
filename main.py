@@ -23,19 +23,16 @@ def move_robot(key):
         case "s":
             robot.backward()
         case "a":
-            # TODO: Left
-            pass
+            robot.left()
         case "d":
-            # TODO: Right
-            pass
+            robot.right()
         case " ":
             robot.stop()
         case "Enter":
             # TODO: Load
             pass
         case "Shift":
-            # TODO: Rotate
-            pass
+            robot.rotate()
 
 
 @app.websocket("/ws")

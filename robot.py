@@ -28,3 +28,21 @@ class Robot:
 
     def stop(self):
         [m.stop() for m in [self.m1, self.m2, self.m3, self.m4]]
+
+    def right(self):
+        self.m2.forward()
+        self.m4.forward()
+        self.m1.stop()
+        self.m3.stop()
+
+    def left(self):
+        self.m1.forward()
+        self.m3.forward()
+        self.m2.stop()
+        self.m3.stop()
+
+    def rotate(self):
+        self.m1.forward()
+        self.m4.forward()
+        self.m2.backward()
+        self.m3.backward()
