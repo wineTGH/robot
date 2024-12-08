@@ -1,5 +1,9 @@
 const ws = new WebSocket(`ws://${location.host}/ws`);
 
 window.addEventListener('keyup', (e) => {
-    ws.send(JSON.stringify({ key: e.key }))
+    sendKey(e.key);
 });
+
+function sendKey(key) {
+    ws.send(JSON.stringify({ key }));
+}
