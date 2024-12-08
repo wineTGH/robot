@@ -2,8 +2,10 @@ from fastapi import FastAPI, Request, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from robot import Robot
 
 app = FastAPI()
+robot = Robot()
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -17,11 +19,9 @@ async def index(request: Request):
 def move_robot(key):
     match key:
         case "w":
-            # TODO: Forward
-            pass
+            robot.forward()
         case "s":
-            # TODO: Backward
-            pass
+            robot.backward()
         case "a":
             # TODO: Left
             pass
@@ -29,8 +29,7 @@ def move_robot(key):
             # TODO: Right
             pass
         case " ":
-            # TODO: Stop
-            pass
+            robot.stop()
         case "Enter":
             # TODO: Load
             pass
