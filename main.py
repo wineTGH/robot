@@ -14,9 +14,34 @@ async def index(request: Request):
     return templates.TemplateResponse(request, name="index.html")
 
 
+def move_robot(key):
+    match key:
+        case "w":
+            # TODO: Forward
+            pass
+        case "s":
+            # TODO: Backward
+            pass
+        case "a":
+            # TODO: Left
+            pass
+        case "d":
+            # TODO: Right
+            pass
+        case " ":
+            # TODO: Stop
+            pass
+        case "Enter":
+            # TODO: Load
+            pass
+        case "Shift":
+            # TODO: Rotate
+            pass
+
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Message text was: {data}")
+        data = await websocket.receive_json()
+        move_robot(data["key"])
