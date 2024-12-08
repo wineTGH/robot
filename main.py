@@ -1,11 +1,25 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from robot import Robot
 
-app = FastAPI()
+from robot import Robot
+from camera import Camera
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    print("Releasing camera")
+    camera.release()
+
+
+camera = Camera(0)
+camera.get_frame()
 robot = Robot()
+app = FastAPI(lifespan=lifespan)
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -41,3 +55,4 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         data = await websocket.receive_json()
         move_robot(data["key"])
+        print(data)

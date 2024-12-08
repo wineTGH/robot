@@ -5,6 +5,8 @@ html,
 
 main {
     padding: 24px;
+    max-height: 100vh;
+    height: 100vh;
 
     display: flex;
     gap: 24px;
@@ -13,9 +15,23 @@ main {
 }
 
 .panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
 
     &>img {
         width: 100%;
         object-fit: cover;
+    }
+}
+
+#movement-buttons {
+    display: grid;
+    gap: 12px;
+
+    & button {
+        width: fit-content;
     }
 }
