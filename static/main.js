@@ -9,5 +9,5 @@ window.addEventListener('keyup', (e) => {
  * @param {string} key 
  */
 function sendKey(key) {
-    ws.send(JSON.stringify({ key }));
+    ws.send(JSON.stringify({ key: key.toLowerCase() }));
 }
