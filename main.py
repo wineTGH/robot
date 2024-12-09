@@ -6,17 +6,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from robot import Robot
-from camera import Camera
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     yield
-    print("Releasing camera")
-    camera.release()
+    robot.stop()
 
 
-camera = Camera(0)
 robot = Robot()
 app = FastAPI(lifespan=lifespan)
 
