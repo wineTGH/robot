@@ -39,7 +39,7 @@ class Robot:
         self.m1.forward()
         self.m3.forward()
         self.m2.stop()
-        self.m3.stop()
+        self.m4.stop()
 
     def rotate(self):
         self.m1.forward()

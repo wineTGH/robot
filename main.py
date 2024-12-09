@@ -17,7 +17,6 @@ async def lifespan(app: FastAPI):
 
 
 camera = Camera(0)
-camera.get_frame()
 robot = Robot()
 app = FastAPI(lifespan=lifespan)
 
@@ -42,10 +41,10 @@ def move_robot(key):
             robot.right()
         case " ":
             robot.stop()
-        case "Enter":
+        case "enter":
             # TODO: Load
             pass
-        case "Shift":
+        case "shift":
             robot.rotate()
 
 
