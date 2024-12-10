@@ -1,15 +1,30 @@
 const ws = new WebSocket(`ws://${location.host}/ws`);
 
-window.addEventListener('keydown', (e) => {
-    if (e.repeat) { return; }
+let lastEvent;
+let heldKeys = {};
 
-    sendKey(e.key);
+window.addEventListener('keydown', (e) => {
+    if (lastEvent && lastEvent.key === e.key) {
+        return;
+    }
+
+    lastEvent = e;
+    heldKeys[e.key] = true;
+    sendKey(e.key, 1);
 });
 
+
+window.addEventListener('keyup', (e) => {
+    sendKey(e.key, 0);
+
+    lastEvent = null;
+    delete heldKeys[e.key];
+});
 /**
  * Отправляет название кнопки роботу
  * @param {string} key 
+ * @param {number} state 
  */
-function sendKey(key) {
-    ws.send(JSON.stringify({ key: key.toLowerCase() }));
+function sendKey(key, state) {
+    ws.send(`${key};${state}`);
 }

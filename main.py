@@ -1,11 +1,29 @@
 from contextlib import asynccontextmanager
+import time
+
+from imutils.video import WebcamVideoStream
+import cv2
 
 from fastapi import FastAPI, Request, WebSocket
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
 from robot import Robot
-import time
+
+
+class Camera:
+    def __init__(self, id: int = 0):
+        self.stream = WebcamVideoStream(src=id).start()
+
+    def __del__(self):
+        self.stream.stop()
+
+    def get_frame(self):
+        image = self.stream.read()
+        _, jpeg = cv2.imencode(".jpg", image)
+
+        return jpeg.tobytes()
 
 
 @asynccontextmanager
@@ -25,6 +43,22 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(request, name="index.html")
+
+
+def gen_frames(camera: Camera):  # generate frame by frame from camera
+    while True:
+        frame = camera.get_frame()
+        yield (
+            b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n\r\n"
+        )  # concat frame one by one and show $
+        time.sleep(0.04)
+
+
+@app.get("/video", response_class=StreamingResponse)
+async def video_feed(id: int = 0):
+    return StreamingResponse(
+        gen_frames(Camera(id)), media_type="multipart/x-mixed-replace; boundary=frame"
+    )
 
 
 def move_robot(key):
@@ -78,6 +112,7 @@ def move_robot(key):
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     while True:
-        data = await websocket.receive_json()
-        move_robot(data["key"])
+        data = await websocket.receive_text()
+        key, state = data.split(";")
+        move_robot(key)
         print(data)
