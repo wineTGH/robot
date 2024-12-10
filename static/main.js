@@ -1,6 +1,8 @@
 const ws = new WebSocket(`ws://${location.host}/ws`);
 
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
+    if (e.repeat) { return; }
+
     sendKey(e.key);
 });
 
